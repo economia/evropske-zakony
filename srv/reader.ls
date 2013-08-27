@@ -28,9 +28,11 @@ lines.forEach (line) ->
     #     console.log 'foo'
     #     console.log "#{id_tisk.length}: #id_tisk"
     #     console.log predlozeno
-    monthId = predlozenoDate.format "YYYY-MM"
+    quarter = Math.ceil (predlozenoDate.format "M" |> parseInt _, 10) / 3
+    monthId = "#{predlozenoDate.format 'YYYY'}-#quarter"
+
     months_assoc[monthId] ?=
-        date: predlozenoDate.format "M. YYYY"
+        date: "Q#quarter " + predlozenoDate.format "YYYY"
         total: 0
         not_eu: 0
         eu: 0
@@ -49,4 +51,5 @@ lines.forEach (line) ->
         else
             months_assoc[monthId].ok_not_eu++
 for id, {date, total, eu, ok_total, ok_eu, not_eu, ok_not_eu} of months_assoc
-    console.log "#date\t#not_eu\t#eu"
+    if ok_not_eu or ok_eu
+        console.log "#date\t#ok_eu\t#ok_not_eu"
