@@ -32,15 +32,21 @@ lines.forEach (line) ->
     months_assoc[monthId] ?=
         date: predlozenoDate.format "M. YYYY"
         total: 0
+        not_eu: 0
         eu: 0
         ok_total: 0
+        ok_not_eu: 0
         ok_eu: 0
     months_assoc[monthId].total++
     if is_eu
         months_assoc[monthId].eu++
+    else
+        months_assoc[monthId].not_eu++
     if zakony_passed["#obdobi-#ct"]
         months_assoc[monthId].ok_total++
         if is_eu
             months_assoc[monthId].ok_eu++
-for id, {date, total, eu, ok_total, ok_eu} of months_assoc
-    console.log "#date\t#total\t#eu\t#ok_total\t#ok_eu"
+        else
+            months_assoc[monthId].ok_not_eu++
+for id, {date, total, eu, ok_total, ok_eu, not_eu, ok_not_eu} of months_assoc
+    console.log "#date\t#not_eu\t#eu"
