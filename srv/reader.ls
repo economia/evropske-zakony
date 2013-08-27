@@ -1,9 +1,8 @@
 require! {
     fs
-    mysql
     moment
 }
-(err, data) <~ fs.readFile "../data/tisky/tisky.unl"
+(err, data) <~ fs.readFile "../data/tisky.unl"
 lines = data.toString!.split "\n"
 #lines.length = 50
 months_assoc = {}
