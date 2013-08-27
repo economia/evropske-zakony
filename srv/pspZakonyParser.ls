@@ -1,4 +1,4 @@
-# vytahne trojice obdobi-cislo vsech schvalenych zakonu
+# vytahne dvojice obdobi-cislo vsech schvalenych zakonu
 require! {
     fs
     async
