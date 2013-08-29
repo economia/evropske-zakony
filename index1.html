@@ -25,53 +25,114 @@
     <body>
 
         <script>
-            var data_kvartal = [];
-            var data_rok = [];
-            var data_veu = [];
-            var data_mimoeu = [];
-            // ----------------------------------------------------
-            d3.tsv("data/data.tsv", function(error, data) {
-                data.forEach(function(d) {
-                    d.Kvartal;
-                    d.Rok = +d.Rok; // +d (pretypovani na cislo v JavaScriptu)
-                    d["v EU"] = +d["v EU"];
-                    d["mimo EU"] = +d["mimo EU"];
+            function pocet() {
+                var data_popisek = [];
+                var data_veu = [];
+                var data_mimoeu = [];
+                // ----------------------------------------------------
+                d3.tsv("data/data.tsv", function(error, data) {
+                    data.forEach(function(d) {
+                        d.Kvartal;
+                        d.Rok = +d.Rok; // +d (pretypovani na cislo v JavaScriptu)
+                        d["v EU"] = +d["v EU"];
+                        d["mimo EU"] = +d["mimo EU"];
 
-                    data_kvartal.push(d.Kvartal);
-                    data_rok.push(d.Rok);
-                    data_veu.push(d["v EU"]);
-                    data_mimoeu.push(d["mimo EU"]);
+                        data_popisek.push(d.Kvartal + " " + d.Rok);
+                        data_veu.push(d["v EU"]);
+                        data_mimoeu.push(d["mimo EU"]);
+                    });
+
+                    console.log(data_popisek);
+                    console.log(data_veu);
+                    console.log(data_mimoeu);
+
+                    d3.select("body").selectAll("div.container")
+                            .data([data_veu, data_mimoeu])
+                            .enter()
+                            .append("div")
+                            .attr("class", function(d, index) {
+                        return ("container c" + index);
+                    })
+
+                            .selectAll("div.container")
+                            .data(function(d) {
+                        return d;
+                    })
+                            .enter()
+                            .append("div")
+                            .attr("class", "bar")
+
+                            .style("height", function(d) {
+                        var barHeight = d * 5;
+                        return barHeight + "px";
+                    });
+
                 });
 
-                console.log(data_kvartal);
-                console.log(data_rok);
-                console.log(data_veu);
-                console.log(data_mimoeu);
+            }
 
-                d3.select("body").selectAll("div.container")
-                        .data([data_veu, data_mimoeu])
-                        .enter()
-                        .append("div")
-                        .attr("class", function(d, index) {
-                    return ("container c" + index);
-                })
+            function procenta() {
+                var data_popisek = [];
+                var data_veu = [];
+                var data_mimoeu = [];
+                // ----------------------------------------------------
+                d3.tsv("data/data.tsv", function(error, data) {
+                    data.forEach(function(d) {
+                        d.Kvartal;
+                        d.Rok = +d.Rok; // +d (pretypovani na cislo v JavaScriptu)
+                        d["v EU"] = +d["v EU"];
+                        d["mimo EU"] = +d["mimo EU"];
 
-                        .selectAll("div.container")
-                        .data(function(d) {
-                    return d;
-                })
-                        .enter()
-                        .append("div")
-                        .attr("class", "bar")
+                        data_popisek.push(d.Kvartal + " " + d.Rok);
+                        data_veu.push(d["v EU"]);
+                        data_mimoeu.push(d["mimo EU"]);
+                    });
 
 
-                        .style("height", function(d) {
-                    var barHeight = d * 5;
-                    return barHeight + "px";
+                    d3.select("body").selectAll("div.container")
+                            .data([data_veu])
+                            .enter()
+                            .append("div")
+                            .attr("class", "bar")
+
+                            .style("height", function(d) {
+                        var barHeight = d * 5;
+                        return barHeight + "px";
+                    });
+
                 });
-                
+
+            }
+        </script>
+        <div id="menu">
+            <input class="buttonbox" id="pocet" name="group1" type="radio">
+            <label for="pocet"><span></span>Pocet</label>
+            <br>
+            <input class="buttonbox" id="procenta" name="group1" type="radio">
+            <label for="procenta"><span></span>Procenta</label>
+        </div>
+
+        <script>
+            function callFce(cmd) {
+                switch (cmd) {
+                    case "pocet":
+                        pocet();
+                        break;
+                    case "procenta":
+                        procenta();
+                        break;
+                }
+            }
+            $('input:radio:first-child').attr('checked', true);
+
+            $("input:checked").each(function() {
+                var id = $(this).attr('id');
+                callFce(id);
+            });
+            $(".buttonbox").click(function() {
+                var id = $(this).attr('id');
+                callFce(id);
             });
         </script>
-
     </body>
 </html>
