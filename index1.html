@@ -105,14 +105,18 @@
             }
         </script>
         <div id="menu">
-            <input class="buttonbox" id="pocet" name="group1" type="radio">
+            <input class="buttonbox" id="pocet" name="group" type="radio">
             <label for="pocet"><span></span>Pocet</label>
             <br>
-            <input class="buttonbox" id="procenta" name="group1" type="radio">
+            <input class="buttonbox" id="procenta" name="group" type="radio">
             <label for="procenta"><span></span>Procenta</label>
         </div>
 
         <script>
+            // Defaultne vybere prvni select box
+            $('input:radio:first-child').attr('checked', true);
+            
+            // Zavola funkci pomoci ID tlacitka
             function callFce(cmd) {
                 switch (cmd) {
                     case "pocet":
@@ -123,12 +127,13 @@
                         break;
                 }
             }
-            $('input:radio:first-child').attr('checked', true);
-
+            
+            // Vytahne aktualni vybrany boxik
             $("input:checked").each(function() {
                 var id = $(this).attr('id');
                 callFce(id);
             });
+            // Pri kliku vybere novy boxik
             $(".buttonbox").click(function() {
                 var id = $(this).attr('id');
                 callFce(id);
