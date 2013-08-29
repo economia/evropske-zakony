@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Uceni se s D3js</title>
+        <meta charset="windows-1250">
+
+        <script src="http://service.ihned.cz/js/modernizr/v2.6.2.svg.min.js"></script>
+        <script src="http://service.ihned.cz/js/jquery.min.js"></script>
+        <script src="http://service.ihned.cz/js/d3/v3.2.8.min.js"></script>
+
+        <style>
+            body {
+                background: green;
+            }
+        </style>
+    </head>
+    <body>
+
+        <script>
+            d3.tsv("data/data.tsv", function(error, data) {
+                data.forEach(function(d) {
+                    d.kvartal = +d.kvartal;
+                    d.rok = +d.rok;
+                    d.veu = +d.veu;
+                    d.mimoeu = +d.mimoeu;
+                    console.log(d);
+                });
+                
+            });
+        </script>
+
+    </body>
+</html>
