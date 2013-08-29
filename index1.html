@@ -9,6 +9,16 @@
         <script src="http://service.ihned.cz/js/d3/v3.2.8.min.js"></script>
 
         <style>		
+            div.bar {
+                display: inline-block;
+                width: 20px;
+                height: 75px;	/* Gets overriden by D3-assigned height below */
+                margin-right: 2px;
+                background-color: teal;
+            }
+            .container.c1 div.bar {
+                background-color: red;
+            }
         </style>
 
     </head>
@@ -19,7 +29,7 @@
             var data_rok = [];
             var data_veu = [];
             var data_mimoeu = [];
-            // ----------------------------------
+            // ----------------------------------------------------
             d3.tsv("data/data.tsv", function(error, data) {
                 data.forEach(function(d) {
                     d.Kvartal;
@@ -38,8 +48,29 @@
                 console.log(data_veu);
                 console.log(data_mimoeu);
 
-            });
+                d3.select("body").selectAll("div.container")
+                        .data([data_veu, data_mimoeu])
+                        .enter()
+                        .append("div")
+                        .attr("class", function(d, index) {
+                    return ("container c" + index);
+                })
 
+                        .selectAll("div.container")
+                        .data(function(d) {
+                    return d;
+                })
+                        .enter()
+                        .append("div")
+                        .attr("class", "bar")
+
+
+                        .style("height", function(d) {
+                    var barHeight = d * 5;
+                    return barHeight + "px";
+                });
+                
+            });
         </script>
 
     </body>
