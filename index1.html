@@ -15,20 +15,29 @@
     <body>
 
         <script>
-            var dataRok =  [];
+            var data_kvartal = [];
+            var data_rok = [];
+            var data_veu = [];
+            var data_mimoeu = [];
             // ----------------------------------
             d3.tsv("data/data.tsv", function(error, data) {
                 data.forEach(function(d) {
                     d.Kvartal;
-                    d.Rok = +d.Rok;
+                    d.Rok = +d.Rok; // +d (pretypovani na cislo v JavaScriptu)
                     d["v EU"] = +d["v EU"];
                     d["mimo EU"] = +d["mimo EU"];
 
-                    dataRok.push(d.Kvartal);
+                    data_kvartal.push(d.Kvartal);
+                    data_rok.push(d.Rok);
+                    data_veu.push(d["v EU"]);
+                    data_mimoeu.push(d["mimo EU"]);
                 });
-                
-                console.log(dataRok);
- 
+
+                console.log(data_kvartal);
+                console.log(data_rok);
+                console.log(data_veu);
+                console.log(data_mimoeu);
+
             });
 
         </script>
