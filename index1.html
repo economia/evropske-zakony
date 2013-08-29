@@ -17,13 +17,13 @@
         <script>
             d3.tsv("data/data.tsv", function(error, data) {
                 data.forEach(function(d) {
-                    d.kvartal = +d.kvartal;
-                    d.rok = +d.rok;
-                    d.veu = +d.veu;
-                    d.mimoeu = +d.mimoeu;
-                    console.log(d);
+                    d.Kvartal = +d.Kvartal;
+                    d.Rok = +d.Rok;
+                    d["v EU"] = +d["v EU"];
+                    d["mimo EU"] = +d["mimo EU"];
                 });               
             });
+            console.log(data);
         </script>
 
     </body>
