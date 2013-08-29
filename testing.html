@@ -9,23 +9,18 @@
         <script src="http://service.ihned.cz/js/d3/v3.2.8.min.js"></script>
 
         <style>
-            body {
-                background: green;
-            }
+
         </style>
     </head>
     <body>
 
         <script>
-            d3.tsv("data/data.tsv", function(error, data) {
+            d3.tsv("testingdata.tsv", function(error, data) {
                 data.forEach(function(d) {
-                    d.kvartal = +d.kvartal;
-                    d.rok = +d.rok;
-                    d.veu = +d.veu;
-                    d.mimoeu = +d.mimoeu;
+                    d.date = parseDate(d.date);
+                    d.close = +d.close;
                     console.log(d);
                 });
-                
             });
         </script>
 
