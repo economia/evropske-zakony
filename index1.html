@@ -48,11 +48,10 @@
             d3.tsv("data/data.tsv", function(error, data) {
                 data.forEach(function(d) {
                     d.Kvartal;
-                    d.Rok = +d.Rok; // +d (pretypovani na cislo v JavaScriptu)
-                    d["v EU"] = +d["v EU"];
+                    d["v EU"] = +d["v EU"]; // +d (pretypovani na cislo v JavaScriptu)
                     d["mimo EU"] = +d["mimo EU"];
 
-                    data_popisek.push(d.Kvartal + " " + d.Rok);
+                    data_popisek.push(d.Kvartal);
                     data_veu.push(d["v EU"]);
                     data_mimoeu.push(d["mimo EU"]);
                 });
