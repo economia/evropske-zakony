@@ -87,34 +87,31 @@
 
 
 /*
-            d3.selectAll("input").on("change", change);
-            var timeout = setTimeout(function() {
-                d3.select("input[value=\"procenta\"]").property("checked", true).each(change);
-            }, 2000);
+          d3.selectAll("input").on("change", function change() 
+	{
+		var value = this.value;
 
-            function change() {
-                clearTimeout(timeout);
-
-                city = this.value;
-
-                // First transition the line & label to the new city.
-                var t0 = svg.transition().duration(750);
-                t0.selectAll(".line").attr("d", line);
-                t0.selectAll(".label").attr("transform", transform).text(city);
-
-                // Then transition the y-axis.
-                y.domain(d3.extent(data, function(d) {
-                    return d[city];
-                }));
-                var t1 = t0.transition();
-                t1.selectAll(".line").attr("d", line);
-                t1.selectAll(".label").attr("transform", transform);
-                t1.selectAll(".y.axis").call(yAxis);
-            }
-
-            function transform(d) {
-                return "translate(" + x(d.date) + "," + y(d[city]) + ")";
-            }
+		d3.selectAll("path").style("fill", function(d) 
+		{
+			switch (value) 
+			{
+				case "Q1 2002":
+					return color(d.properties.eightyseven);
+					break;
+				case "Q2 2002":
+					return color(d.properties.eightyeight);
+					break;
+				case "Q1 2002":
+					return color(d.properties.eightynine);
+					break;
+				case "Q4 2002":
+					return color(d.properties.ten);
+					break;
+			}
+		});
+	}
+          
+¨
             */
         </script>
 
