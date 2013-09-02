@@ -31,16 +31,6 @@
 
         <script>
 
-            var margin = {top: 20, right: 80, bottom: 30, left: 50},
-            width = 960 - margin.left - margin.right, height = 500 - margin.top - margin.bottom;
-
-            var svg = d3.select("body").append("svg")
-                    .attr("width", width + margin.left + margin.right)
-                    .attr("height", height + margin.top + margin.bottom)
-                    .append("g")
-                    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-
-
             var data_popisek = [];
             var data_veu = [];
             var data_mimoeu = [];
@@ -59,60 +49,8 @@
                 console.log(data_popisek);
                 console.log(data_veu);
                 console.log(data_mimoeu);
-
-                /*
-                 d3.select("body").selectAll("div.container")
-                 .data([data_veu, data_mimoeu])
-                 .enter()
-                 .append("div")
-                 .attr("class", function(d, index) {
-                 return ("container c" + index);
-                 })
-                 
-                 .selectAll("div.container")
-                 .data(function(d) {
-                 return d;
-                 })
-                 .enter()
-                 .append("div")
-                 .attr("class", "bar")
-                 
-                 .style("height", function(d) {
-                 var barHeight = d * 5;
-                 return barHeight + "px";
-                 });
-                 */
-
             });
 
-
-/*
-          d3.selectAll("input").on("change", function change() 
-	{
-		var value = this.value;
-
-		d3.selectAll("path").style("fill", function(d) 
-		{
-			switch (value) 
-			{
-				case "Q1 2002":
-					return color(d.properties.eightyseven);
-					break;
-				case "Q2 2002":
-					return color(d.properties.eightyeight);
-					break;
-				case "Q1 2002":
-					return color(d.properties.eightynine);
-					break;
-				case "Q4 2002":
-					return color(d.properties.ten);
-					break;
-			}
-		});
-	}
-          
-¨
-            */
         </script>
 
 
