@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Uceni se s D3js</title>
+        <meta charset="windows-1250">
+
+        <script src="http://service.ihned.cz/js/modernizr/v2.6.2.svg.min.js"></script>
+        <script src="http://service.ihned.cz/js/jquery.min.js"></script>
+        <script src="http://service.ihned.cz/js/d3/v3.2.8.min.js"></script>
+
+        <style>
+            svg {
+                border: solid 1px #ccc;
+                font: 10px sans-serif;
+                shape-rendering: crispEdges;
+            }
+        </style>  
+
+    </head>
+    <body>
+
+        <form>
+            <label><input type="radio" name="mode" value="pocet" checked>Počet</label>
+            <label><input type="radio" name="mode" value="procenta">Procenta</label>
+        </form>
+
+
+        <script type="text/javascript">
+            d3.tsv("data.tsv", function(error, data) {
+                // ----------------------------------------------------------------------------------------------------
+                vychoziDataSet = data.map(function(d) {
+                    return [+d["v EU"], +d["mimo EU"] /*, d.Kvartal */];  // +d (pretypovani na cislo v JavaScriptu)
+                });
+
+                j = 1;
+                for (var i = 0; i < vychoziDataSet.length; i++) {
+                    jAddToArray = (vychoziDataSet[i]);
+                    jAddToArray.unshift(j);
+                    j++;
+                }
+
+                console.log(vychoziDataSet);
+
+
+
+
+
+
+                // ----------------------------------------------------------------------------------------------------
+            });
+        </script>
+
+
+    </body>
+</html>
