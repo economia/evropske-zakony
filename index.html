@@ -29,18 +29,17 @@
         <script type="text/javascript">
             var width = 960, height = 500; // Velikost grafu
 
-            // create canvas
             var svg = d3.select("#vykreslovaciDiv")
                     .append("svg") // vektorová grafika
                     .attr("class", "chart") // pridani SVG elementu trida chart
-                    .attr("width", width) // a nastavena sirka
+                    .attr("width", width) // nastavena sirka
                     .attr("height", height) // a vyska
-
-                    .append("g") //
+            
+                    .append("g") // Pridan dalsi element
                     .attr("transform", "translate(10,480)"); // Pozicovani uvnitr ramecku => 10 z leva, 480 shora
 
-            x = d3.scale.ordinal().rangeRoundBands([0, width - 50]);
-            y = d3.scale.linear().range([0, height - 50]);
+            x = d3.scale.ordinal().rangeRoundBands([0, width - 10]); // Jak hodne se graf roztahuje = do sirky
+            y = d3.scale.linear().range([0, height - 50]); // Jak hodne se graf roztahuje = do vysky
             z = d3.scale.ordinal().range(["darkblue", "blue", "lightblue"]);
 
 
