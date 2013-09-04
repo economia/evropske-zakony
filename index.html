@@ -28,6 +28,7 @@
         
         <script type="text/javascript">            
             // http://bl.ocks.org/anotherjavadude/2940908
+            
             var width = 960, height = 500; // Velikost zobrazovaneho grafu v ramecku
 
             var svg = d3.select("#vykreslovaciDiv")
@@ -46,7 +47,7 @@
             d3.tsv("data/data.tsv", function(error, data) {
                 // -----------------------------------------
                 vychoziDataSet = data.map(function(d) {
-                    return [+d["v EU"], +d["mimo EU"] /*, d.Kvartal */];  // +d (pretypovani na cislo v JavaScriptu)
+                    return [+d["v EU"], +d["mimo EU"] , d.Kvartal];  // +d (pretypovani na cislo v JavaScriptu)
                 });
 
                 j = 1;
@@ -63,14 +64,14 @@
                     });
                 });
 
-                console.log("-----------\n-> REMAPED\n-----------");
-                var remapped = d3.layout.stack()(remapped);
-                console.log(remapped);
+                console.log("-----------\n-> Layout\n-----------");
+                var stacked = d3.layout.stack()(remapped);
+                console.log(stacked);
 
-                x.domain(remapped[0].map(function(d) {
-                    return d.x; // Vrati poradi na kterem je sloupec (d = hodnota), (remapped[0] = poradi)
+                x.domain(stacked[0].map(function(d) {
+                    return d.x; // Vrati poradi na kterem je sloupec (d = hodnota), (stacked[0] = poradi)
                 }));
-                y.domain([0, d3.max(remapped[remapped.length - 1], function(d) {
+                y.domain([0, d3.max(stacked[stacked.length - 1], function(d) {
                         return d.y0 + d.y;
                     })]);
 
@@ -80,14 +81,14 @@
 
                 // Add a group for each column.
                 var valgroup = svg.selectAll("g.valgroup")
-                        .data(remapped)
+                        .data(stacked)
                         .enter() // Vytvori misto pro prvek, enter() davame az kdyz chceme vkladat data
                         .append("g")
                         .attr("class", "valgroup")
-                        .style("fill", function(d, i) {
+                        .style("fill", function(d, i) {// Background
                     return z(i);
                 })
-                        .style("stroke", function(d, i) {
+                        .style("stroke", function(d, i) {// Border
                     return d3.rgb(z(i)).darker();
                 });
 
@@ -98,16 +99,15 @@
                 })
                         .enter().append("rect")
                         .attr("x", function(d) {
-                    return x(d.x);
+                    return x(d.x); // pozice LEFT
                 })
                         .attr("y", function(d) {
-                    return -y(d.y0) - y(d.y);
+                    return -y(d.y0) - y(d.y); // pozice TOP
                 })
                         .attr("height", function(d) {
                     return y(d.y);
                 })
                         .attr("width", x.rangeBand());
-
                 // -----------------------------------------
             });
         </script>
