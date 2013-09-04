@@ -23,21 +23,21 @@
             <label><input type="radio" name="mode" value="pocet" checked>Poèet</label>
             <label><input type="radio" name="mode" value="procenta">Procenta</label>
         </form>
-
-        <div id="viz"></div>
+        <div id="vykreslovaciDiv"></div>
+        
+        
         <script type="text/javascript">
-
-            var width = 960, height = 500;
+            var width = 960, height = 500; // Velikost grafu
 
             // create canvas
-            var svg = d3.select("#viz")
-                    .append("svg")
-                    .attr("class", "chart")
-                    .attr("width", width)
-                    .attr("height", height)
+            var svg = d3.select("#vykreslovaciDiv")
+                    .append("svg") // vektorová grafika
+                    .attr("class", "chart") // pridani SVG elementu trida chart
+                    .attr("width", width) // a nastavena sirka
+                    .attr("height", height) // a vyska
 
-                    .append("g")
-                    .attr("transform", "translate(10,470)");
+                    .append("g") //
+                    .attr("transform", "translate(10,480)"); // Pozicovani uvnitr ramecku => 10 z leva, 480 shora
 
             x = d3.scale.ordinal().rangeRoundBands([0, width - 50]);
             y = d3.scale.linear().range([0, height - 50]);
