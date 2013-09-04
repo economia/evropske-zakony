@@ -26,21 +26,21 @@
         <div id="vykreslovaciDiv"></div>
         
         
-        <script type="text/javascript">
+        <script type="text/javascript">            
+            // http://bl.ocks.org/anotherjavadude/2940908
             var width = 960, height = 500; // Velikost zobrazovaneho grafu v ramecku
 
             var svg = d3.select("#vykreslovaciDiv")
                     .append("svg") // SVG = vektorová grafika
                     .attr("class", "chart") // pridani SVG elementu trida chart
                     .attr("width", width) // nastav sirku z promenne
-                    .attr("height", height) // a jeste vysku
-            
+                    .attr("height", height) // a jeste vysku           
                     .append("g") // Pridan dalsi element
                     .attr("transform", "translate(0,480)"); // Pozicovani uvnitr ramecku => z leva, shora
 
             x = d3.scale.ordinal().rangeRoundBands([0, width]); // range = rozsah výstupu
             y = d3.scale.linear().range([0, height - 50]); // Shora o 50 mensi
-            z = d3.scale.ordinal().range(["darkblue", "blue", "lightblue"]); // Pridany barvicky
+            z = d3.scale.ordinal().range(["darkblue", "blue"]); // Pridany barvicky
 
 
             d3.tsv("data/data.tsv", function(error, data) {
@@ -57,20 +57,20 @@
                 }
                 // console.log(vychoziDataSet);
 
-                var stacked = ["c1", "c2"].map(function(dat, i) {
+                var remapped = ["hodnotyEU", "hodnotyMIMOEU"].map(function(dat, i) {
                     return vychoziDataSet.map(function(d, ii) {
                         return {x: ii, y: d[i + 1]};
                     });
                 });
 
-                console.log("LAYOUT\n---------------------------");
-                var stacked = d3.layout.stack()(stacked);
-                console.log(stacked);
+                console.log("-----------\n-> REMAPED\n-----------");
+                var remapped = d3.layout.stack()(remapped);
+                console.log(remapped);
 
-                x.domain(stacked[0].map(function(d) {
-                    return d.x; // Vrati poradi na kterem je sloupec (d = hodnota), (stacked[0] = poradi)
+                x.domain(remapped[0].map(function(d) {
+                    return d.x; // Vrati poradi na kterem je sloupec (d = hodnota), (remapped[0] = poradi)
                 }));
-                y.domain([0, d3.max(stacked[stacked.length - 1], function(d) {
+                y.domain([0, d3.max(remapped[remapped.length - 1], function(d) {
                         return d.y0 + d.y;
                     })]);
 
@@ -80,7 +80,7 @@
 
                 // Add a group for each column.
                 var valgroup = svg.selectAll("g.valgroup")
-                        .data(stacked)
+                        .data(remapped)
                         .enter() // Vytvori misto pro prvek, enter() davame az kdyz chceme vkladat data
                         .append("g")
                         .attr("class", "valgroup")
