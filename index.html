@@ -30,17 +30,17 @@
             var width = 960, height = 500; // Velikost zobrazovaneho grafu v ramecku
 
             var svg = d3.select("#vykreslovaciDiv")
-                    .append("svg") // vektorová grafika
+                    .append("svg") // SVG = vektorová grafika
                     .attr("class", "chart") // pridani SVG elementu trida chart
-                    .attr("width", width) // nastavena sirka
-                    .attr("height", height) // a vyska
+                    .attr("width", width) // nastav sirku z promenne
+                    .attr("height", height) // a jeste vysku
             
                     .append("g") // Pridan dalsi element
-                    .attr("transform", "translate(0,480)"); // Pozicovani uvnitr ramecku => 10 z leva, 480 shora
+                    .attr("transform", "translate(0,480)"); // Pozicovani uvnitr ramecku => z leva, shora
 
-            x = d3.scale.ordinal().rangeRoundBands([0, width]); // range = rozsah výstup
+            x = d3.scale.ordinal().rangeRoundBands([0, width]); // range = rozsah výstupu
             y = d3.scale.linear().range([0, height - 50]); // Shora o 50 mensi
-            z = d3.scale.ordinal().range(["darkblue", "blue", "lightblue"]);
+            z = d3.scale.ordinal().range(["darkblue", "blue", "lightblue"]); // Pridany barvicky
 
 
             d3.tsv("data/data.tsv", function(error, data) {
@@ -52,7 +52,7 @@
                 j = 1;
                 for (var i = 0; i < vychoziDataSet.length; i++) {
                     jAddToArray = (vychoziDataSet[i]);
-                    jAddToArray.unshift(j); // Ocislovani kazdeho sloupecku uvnitr poli
+                    jAddToArray.unshift(j); // Ocislovani kazdeho sloupecku uvnitr vsech poli
                     j++;
                 }
                 // console.log(vychoziDataSet);
@@ -81,7 +81,8 @@
                 // Add a group for each column.
                 var valgroup = svg.selectAll("g.valgroup")
                         .data(stacked)
-                        .enter().append("g")
+                        .enter() // Vytvori misto pro prvek, enter() davame az kdyz chceme vkladat data
+                        .append("g")
                         .attr("class", "valgroup")
                         .style("fill", function(d, i) {
                     return z(i);
