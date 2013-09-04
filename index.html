@@ -68,14 +68,14 @@
                 console.log(stacked);
 
                 x.domain(stacked[0].map(function(d) {
-                    return d.x;
+                    return d.x; // Vrati poradi na kterem je sloupec (d = hodnota), (stacked[0] = poradi)
                 }));
                 y.domain([0, d3.max(stacked[stacked.length - 1], function(d) {
                         return d.y0 + d.y;
                     })]);
 
-                // show the domains of the scales              
-                console.log("x.domain(): " + x.domain());
+                // Zobrazeni vstupnich meritek          
+                console.log("x.domain(): " + x.domain()); // na ose X se budou zobrazovat tyto sloupce a v tomto poradi
                 console.log("y.domain(): " + y.domain());
 
                 // Add a group for each column.
