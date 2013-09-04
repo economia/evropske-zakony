@@ -27,7 +27,7 @@
         
         
         <script type="text/javascript">
-            var width = 960, height = 500; // Velikost grafu
+            var width = 960, height = 500; // Velikost zobrazovaneho grafu v ramecku
 
             var svg = d3.select("#vykreslovaciDiv")
                     .append("svg") // vektorová grafika
@@ -36,10 +36,10 @@
                     .attr("height", height) // a vyska
             
                     .append("g") // Pridan dalsi element
-                    .attr("transform", "translate(10,480)"); // Pozicovani uvnitr ramecku => 10 z leva, 480 shora
+                    .attr("transform", "translate(0,480)"); // Pozicovani uvnitr ramecku => 10 z leva, 480 shora
 
-            x = d3.scale.ordinal().rangeRoundBands([0, width - 10]); // Jak hodne se graf roztahuje = do sirky
-            y = d3.scale.linear().range([0, height - 50]); // Jak hodne se graf roztahuje = do vysky
+            x = d3.scale.ordinal().rangeRoundBands([0, width]); // range = rozsah výstup
+            y = d3.scale.linear().range([0, height - 50]); // Shora o 50 mensi
             z = d3.scale.ordinal().range(["darkblue", "blue", "lightblue"]);
 
 
@@ -52,11 +52,10 @@
                 j = 1;
                 for (var i = 0; i < vychoziDataSet.length; i++) {
                     jAddToArray = (vychoziDataSet[i]);
-                    jAddToArray.unshift(j);
+                    jAddToArray.unshift(j); // Ocislovani kazdeho sloupecku uvnitr poli
                     j++;
                 }
-
-                console.log(vychoziDataSet);
+                // console.log(vychoziDataSet);
 
                 var stacked = ["c1", "c2"].map(function(dat, i) {
                     return vychoziDataSet.map(function(d, ii) {
