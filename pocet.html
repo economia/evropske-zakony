@@ -91,7 +91,7 @@
                     return d3.rgb(z(i)).darker();
                 });
 
-                // Add a rect for each date.
+                    // Add a rect for each date.
                 var rect = valgroup.selectAll("rect")
                         .data(function(d) {
                     return d;
@@ -104,9 +104,9 @@
                     return -y(d.y0) - y(d.y); // pozice TOP
                 })
                         .attr("height", function(d) {
-                    return y(d.y);
+                    return y(d.y); // Vyska - vsech sloupcu vcetne ramecku
                 })
-                        .attr("width", x.rangeBand());
+                        .attr("width", x.rangeBand()); // Sirka - vsech sloupcu vcetne ramecku
                 // -----------------------------------------
             });
         </script>

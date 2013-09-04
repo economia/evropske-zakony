@@ -25,8 +25,8 @@
         </form>
 
         <script type="text/javascript">
-            // http://bl.ocks.org/anotherjavadude/2940908
-            // V tomto pripade to neni problem prepsat do divu, ale radeji se naucim SVG
+            // Inspirace na update funkce http://bl.ocks.org/mbostock/3943967
+            // Inspirace procenta http://bl.ocks.org/mbostock/3885211
 
             var width = 960, height = 500; // Velikost zobrazovaneho grafu v ramecku
 
@@ -104,9 +104,9 @@
                     return -y(d.y0) - y(d.y); // pozice TOP
                 })
                         .attr("height", function(d) {
-                    return y(d.y);
+                    return y(d.y); // Vyska - vsech sloupcu vcetne ramecku
                 })
-                        .attr("width", x.rangeBand());
+                        .attr("width", x.rangeBand()); // Sirka - vsech sloupcu vcetne ramecku
                 // -----------------------------------------
             });
         </script>
