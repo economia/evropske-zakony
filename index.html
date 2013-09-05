@@ -41,6 +41,69 @@
 
             d3.tsv("data/data.tsv", function(error, data) {
 
+                function vypisSloupce(ChangeData) {
+                            
+                    j = 1;
+                    for (var i = 0; i < ChangeData.length; i++) {
+                        jAddToArray = (ChangeData[i]);
+                        jAddToArray.unshift(j); // Ocislovani kazdeho sloupecku uvnitr vsech poli
+                        j++;
+                    }
+                    // console.log(data);
+
+                    var remapped = ["hodnotyEU", "hodnotyMIMOEU"].map(function(dat, i) {
+                        return ChangeData.map(function(d, ii) {
+                            return {x: ii, y: d[i + 1]};
+                        });
+                    });
+
+                    console.log("-----------\n-> Layout\n-----------");
+                    var stacked = d3.layout.stack()(remapped);
+                    console.log(stacked);
+
+                    x.domain(stacked[0].map(function(d) {
+                        return d.x; // Vrati poradi na kterem je sloupec (d = hodnota), (stacked[0] = poradi)
+                    }));
+                    y.domain([0, d3.max(stacked[stacked.length - 1], function(d) {
+                            return d.y0 + d.y;
+                        })]);
+
+                    // Zobrazeni vstupnich meritek          
+                    console.log("x.domain(): " + x.domain()); // na ose X se budou zobrazovat tyto sloupce a v tomto poradi
+                    console.log("y.domain(): " + y.domain());
+
+                    // Add a group for each column.
+                    var valgroup = svg.selectAll("g.valgroup")
+                            .data(stacked)
+                            .enter() // Vytvori misto pro prvek, enter() davame az kdyz chceme vkladat data
+                            .append("g")
+                            .attr("class", "valgroup")
+                            .style("fill", function(d, i) {// Background
+                        return z(i);
+                    })
+                            .style("stroke", function(d, i) {// Border
+                        return d3.rgb(z(i)).darker();
+                    });
+
+                    // Add a rect for each date.
+                    valgroup.selectAll("rect")
+                            .data(function(d) {
+                        return d;
+                    })
+                            .enter().append("rect") // update dat staci zde
+                            .attr("x", function(d) {
+                        return x(d.x); // pozice LEFT
+                    })
+                            .attr("y", function(d) {
+                        return -y(d.y0) - y(d.y); // pozice TOP
+                    })
+                            .attr("height", function(d) {
+                        return y(d.y); // Vyska - vsech sloupcu vcetne ramecku
+                    })
+                            .attr("width", x.rangeBand()); // Sirka - vsech sloupcu vcetne ramecku
+                    // -----------------------------------------
+                }
+
                 // BEGIN: Input BUTTON zmeny
                 $("input[name=mode]:radio").change(function() {
                     if (!$(this).is(":checked"))
@@ -50,16 +113,26 @@
                     switch (fceCMD)
                     {
                         case "pocet":
-                            console.log("funkce1");
+                            console.log("pocet");
+                            vychoziDataSet = data.map(function(d) {
+                                return [+d["v EU"], +d["mimo EU"], d.Kvartal];  // +d (pretypovani na cislo v JavaScriptu)
+                            });
+                            vypisSloupce(vychoziDataSet);
                             break;
+                            
                         case "procenta":
-                            console.log("funkce2");
+                            console.log("procenta");
+                            vychoziDataSet = data.map(function(d) {
+                                var soucet = +d["v EU"] + +d["mimo EU"];
+                                return [+d["v EU"] / soucet, +d["mimo EU"] / soucet, d.Kvartal];  // +d (pretypovani na cislo v JavaScriptu)
+                            });
+                            vypisSloupce(vychoziDataSet);
                             break;
                     }
 
                 }).change();
                 // END: Input BUTTON zmeny
-                
+
             });
         </script>
 
