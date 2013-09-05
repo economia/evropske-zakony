@@ -80,7 +80,7 @@
                     });
 
                     // Add a rect for each date.
-                    valgroup = svg.selectAll("g.valgroup");
+                    valgroup = svg.selectAll("g.valgroup"); // Jelikoz se nevytvareji nove prvky, tak musime znovu nacist valgroup aby se aktualizovali data
                     var rect = valgroup.selectAll("rect")
                             .data(function(d) {
                         return d;
