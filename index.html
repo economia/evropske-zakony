@@ -42,7 +42,7 @@
             d3.tsv("data/data.tsv", function(error, data) {
 
                 function vypisSloupce(ChangeData) {
-                            
+
                     j = 1;
                     for (var i = 0; i < ChangeData.length; i++) {
                         jAddToArray = (ChangeData[i]);
@@ -81,11 +81,11 @@
                     });
 
                     // Add a rect for each date.
-                    valgroup.selectAll("rect")
+                    var rect = valgroup.selectAll("rect")
                             .data(function(d) {
                         return d;
-                    })
-                            .enter().append("rect") // update dat staci zde
+                    });
+                    rect.enter().append("rect") // update dat staci zde
                             .attr("x", function(d) {
                         return x(d.x); // pozice LEFT
                     })
@@ -96,6 +96,7 @@
                         return y(d.y); // Vyska - vsech sloupcu vcetne ramecku
                     })
                             .attr("width", x.rangeBand()); // Sirka - vsech sloupcu vcetne ramecku
+                    rect.exit().remove();
                     // -----------------------------------------
                 }
 
@@ -112,16 +113,16 @@
                             vychoziDataSet = data.map(function(d) {
                                 return [+d["v EU"], +d["mimo EU"], d.Kvartal];  // +d (pretypovani na cislo v JavaScriptu)
                             });
-                            vypisSloupce(vychoziDataSet);
+                            vypisSloupce(vychoziDataSet); // Spustit fci
                             break;
-                            
+
                         case "procenta":
                             console.log("procenta");
                             vychoziDataSet = data.map(function(d) {
                                 var soucet = +d["v EU"] + +d["mimo EU"];
                                 return [+d["v EU"] / soucet, +d["mimo EU"] / soucet, d.Kvartal];  // +d (pretypovani na cislo v JavaScriptu)
                             });
-                            vypisSloupce(vychoziDataSet);
+                            vypisSloupce(vychoziDataSet); // Spustit fci
                             break;
                     }
 
