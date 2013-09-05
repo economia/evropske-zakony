@@ -49,7 +49,6 @@
                         jAddToArray.unshift(j); // Ocislovani kazdeho sloupecku uvnitr vsech poli
                         j++;
                     }
-                    // console.log(data);
 
                     var remapped = ["hodnotyEU", "hodnotyMIMOEU"].map(function(dat, i) {
                         return ChangeData.map(function(d, ii) {
@@ -58,9 +57,8 @@
                     });
 
                     var stacked = d3.layout.stack()(remapped);
-                    console.log(stacked);
+                    // console.log(stacked); // Ladici prvek
 
-// -------------------------------------------------- ===
                     x.domain(stacked[0].map(function(d) {
                         return d.x; // Vrati poradi na kterem je sloupec (d = hodnota), (stacked[0] = poradi)
                     }));
@@ -97,7 +95,6 @@
                         return -y(d.y0) - y(d.y); // pozice TOP
                     })
                             .attr("height", function(d) {
-                        //console.log(y(d.y));
                         return y(d.y); // Vyska - vsech sloupcu vcetne ramecku
                     })
                             .attr("width", x.rangeBand()); // Sirka - vsech sloupcu vcetne ramecku
@@ -112,7 +109,7 @@
                     switch (fceCMD)
                     {
                         case "pocet":
-                            console.log("pocet");
+                            // console.log("pocet"); // Ladici prvek
                             vychoziDataSet = data.map(function(d) {
                                 return [+d["v EU"], +d["mimo EU"], d.Kvartal];  // +d (pretypovani na cislo v JavaScriptu)
                             });
@@ -120,7 +117,7 @@
                             break;
 
                         case "procenta":
-                            console.log("procenta");
+                            // console.log("procenta"); // Ladici prvek
                             vychoziDataSet = data.map(function(d) {
                                 var soucet = +d["v EU"] + +d["mimo EU"];
                                 return [+d["v EU"] / soucet, +d["mimo EU"] / soucet, d.Kvartal];  // +d (pretypovani na cislo v JavaScriptu)
