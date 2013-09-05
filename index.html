@@ -41,17 +41,25 @@
 
             d3.tsv("data/data.tsv", function(error, data) {
 
+                // BEGIN: Input BUTTON zmeny
                 $("input[name=mode]:radio").change(function() {
                     if (!$(this).is(":checked"))
                         return;
 
-                    console.log($(this).attr('value'));
-                    console.log("ahoj");
+                    var fceCMD = $(this).attr('value');
+                    switch (fceCMD)
+                    {
+                        case "pocet":
+                            console.log("funkce1");
+                            break;
+                        case "procenta":
+                            console.log("funkce2");
+                            break;
+                    }
 
                 }).change();
-
-
-
+                // END: Input BUTTON zmeny
+                
             });
         </script>
 
