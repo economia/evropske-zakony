@@ -57,7 +57,6 @@
                         });
                     });
 
-                    console.log("-----------\n-> Layout\n-----------");
                     var stacked = d3.layout.stack()(remapped);
                     console.log(stacked);
 
@@ -67,10 +66,6 @@
                     y.domain([0, d3.max(stacked[stacked.length - 1], function(d) {
                             return d.y0 + d.y;
                         })]);
-
-                    // Zobrazeni vstupnich meritek          
-                    console.log("x.domain(): " + x.domain()); // na ose X se budou zobrazovat tyto sloupce a v tomto poradi
-                    console.log("y.domain(): " + y.domain());
 
                     // Add a group for each column.
                     var valgroup = svg.selectAll("g.valgroup")
