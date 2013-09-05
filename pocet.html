@@ -48,7 +48,13 @@
                 vychoziDataSet = data.map(function(d) {
                     return [+d["v EU"], +d["mimo EU"], d.Kvartal];  // +d (pretypovani na cislo v JavaScriptu)
                 });
-
+              function bbb() {
+                    vychoziDataSet = data.map(function(d) {
+                        var soucet = +d["v EU"] + +d["mimo EU"];
+                        return [+d["v EU"] / soucet, +d["mimo EU"] / soucet, d.Kvartal];  // +d (pretypovani na cislo v JavaScriptu)
+                    });
+                }
+                
                 j = 1;
                 for (var i = 0; i < vychoziDataSet.length; i++) {
                     jAddToArray = (vychoziDataSet[i]);
