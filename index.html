@@ -60,6 +60,7 @@
                     var stacked = d3.layout.stack()(remapped);
                     console.log(stacked);
 
+// -------------------------------------------------- ===
                     x.domain(stacked[0].map(function(d) {
                         return d.x; // Vrati poradi na kterem je sloupec (d = hodnota), (stacked[0] = poradi)
                     }));
@@ -81,11 +82,14 @@
                     });
 
                     // Add a rect for each date.
+                    valgroup = svg.selectAll("g.valgroup");
                     var rect = valgroup.selectAll("rect")
                             .data(function(d) {
                         return d;
                     });
-                    rect.enter().append("rect") // update dat staci zde
+                    rect.enter().append("rect"); // update dat staci zde
+                    valgroup.selectAll("rect")
+                            .transition().duration(500)
                             .attr("x", function(d) {
                         return x(d.x); // pozice LEFT
                     })
@@ -93,11 +97,10 @@
                         return -y(d.y0) - y(d.y); // pozice TOP
                     })
                             .attr("height", function(d) {
+                        //console.log(y(d.y));
                         return y(d.y); // Vyska - vsech sloupcu vcetne ramecku
                     })
                             .attr("width", x.rangeBand()); // Sirka - vsech sloupcu vcetne ramecku
-                    rect.exit().remove();
-                    // -----------------------------------------
                 }
 
                 // BEGIN: Input BUTTON zmeny
