@@ -7,12 +7,15 @@
 		<script src="http://service.ihned.cz/js/modernizr/v2.6.2.svg.min.js"></script>
 		<script src="http://service.ihned.cz/js/jquery.min.js"></script>
 		<script src="http://service.ihned.cz/js/d3/v3.2.8.min.js"></script>
-
+		<link href="css/bootstrap.min.css" rel="stylesheet" type="text/css">
 		<style>
 			svg {
 				border: solid 1px #ccc;
 				font: 10px sans-serif;
 				shape-rendering: crispEdges;
+			}
+			input[type='radio'] {
+				display: none; 
 			}
 		</style>  
 
@@ -20,8 +23,14 @@
 	<body>
 
 		<form>
-			<label><input type="radio" name="mode" value="pocet" checked>Poèet</label>
-			<label><input type="radio" name="mode" value="procenta">Procenta</label>
+			<div class="btn-group">
+				<label class="btn btn-default">
+					<input type="radio" name="mode" value="pocet" checked>Poèet
+				</label>
+				<label class="btn btn-default">
+					<input type="radio" name="mode" value="procenta">Procenta
+				</label>
+			</div>
 		</form>
 
 		<script type="text/javascript">
@@ -104,6 +113,11 @@
 					if (!$(this).is(":checked"))
 						return;
 
+					// Aktivni tlacitko
+					$('label:has(input:radio:checked)').addClass('active');
+					$('label:has(input:radio:not(:checked))').removeClass('active');
+
+					// Zmeny hodnot
 					var fceCMD = $(this).attr('value');
 					switch (fceCMD)
 					{
