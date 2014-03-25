@@ -14,6 +14,19 @@
 				font: 10px sans-serif;
 				shape-rendering: crispEdges;
 			}
+			.axis {
+				shape-rendering: crispEdges;
+			}
+			.axis path {
+				fill: none;
+			}
+			.x.axis line {
+				stroke: #fff;
+				stroke-opacity: .8;
+			}
+			.y.axis path {
+				stroke: black;
+			}
 			input[type='radio'] {
 				display: none; 
 			}
@@ -34,9 +47,9 @@
 		</form>
 
 		<script type="text/javascript">
-			var width = 960, height = 500; // Velikost zobrazovaneho grafu v ramecku
+			var width = 990, height = 500; // Velikost zobrazovaneho grafu v ramecku
 
-			var x = d3.scale.ordinal().rangeRoundBands([0, width]); // range = rozsah výstupu
+			var x = d3.scale.ordinal().rangeRoundBands([25, width]); // range = rozsah výstupu
 			var y = d3.scale.linear().range([0, height - 50]); // Shora o 50 mensi
 			var z = d3.scale.ordinal().range(["#2B7BBE", "#2BBE96"]); // Pridany barvicky
 
@@ -46,9 +59,34 @@
 					.attr("width", width) // nastav sirku z promenne
 					.attr("height", height) // a jeste vysku  
 					.append("g") // Pridan dalsi element
-					.attr("transform", "translate(0,480)"); // Pozicovani uvnitr ramecku => z leva, shora
+					.attr("transform", "translate(0,460)"); // Pozicovani uvnitr ramecku => z leva, shora
 
 			d3.tsv("data/data.tsv", function(error, data) {
+
+				var x1Axis = d3.svg.axis()
+						.scale(x)
+						.orient("top")
+						.tickSize(0)
+						.tickFormat(function(index) {
+							return data[index].Kvartal;
+
+						});
+				var x2Axis = d3.svg.axis()
+						.scale(x)
+						.orient("bottom")
+						.tickSize(0)
+						.tickFormat(function(index) {
+							if (data[index].Kvartal == "Q1") {
+								return data[index].rok;
+							} else {
+								return  "";
+							}
+
+						});
+				var yAxis = d3.svg.axis()
+						.scale(y)
+						.orient("left")
+						.tickSize(2);
 
 				function vypisSloupce(ChangeData) {
 					j = 1;
@@ -86,6 +124,21 @@
 							.style("stroke", function(d, i) {// Border
 								return d3.rgb(z(i)).darker();
 							});
+
+					svg.append("g")
+							.attr("class", "x axis")
+							.attr("transform", "translate(0,18)")
+							.call(x1Axis);
+
+					svg.append("g")
+							.attr("class", "x axis")
+							.attr("transform", "translate(0,20)")
+							.call(x2Axis);
+
+					svg.append("g")
+							.attr("class", "y axis")
+							.attr("transform", "translate(30,-450)")
+							.call(yAxis);
 
 					// Add a rect for each date.
 					valgroup = svg.selectAll("g.valgroup"); // Jelikoz se nevytvareji nove prvky, tak musime znovu nacist valgroup aby se aktualizovali data
