@@ -86,7 +86,8 @@
 						.scale(y_AxisScale)
 						.orient("left")
 						.tickSize(2)
-						.tickFormat(function(d) {
+						.tickFormat(function(d, index) {
+							// console.log(d + " index:" + index);
 							if (d <= 1 && d !== 0) {
 								return (d * 100) + "%";
 							} else {
