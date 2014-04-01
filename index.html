@@ -1,218 +1,88 @@
-<!DOCTYPE html>
+<!-- livereload -->
+<script>document.write('<script src="http://' + (location.host || 'localhost')
+.split(':')[0] + ':35729/livereload.js?snipver=1"></' + 'script>')</script>
+<!-- /livereload -->
+
+<!DOCTYPE HTML>
 <html>
 	<head>
-		<meta charset="windows-1250">
-		<title>Evropské zákony</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 
-		<script src="http://service.ihned.cz/js/modernizr/v2.6.2.svg.min.js"></script>
-		<script src="http://service.ihned.cz/js/jquery.min.js"></script>
-		<script src="http://service.ihned.cz/js/d3/v3.2.8.min.js"></script>
-		<link href="css/bootstrap.min.css" rel="stylesheet" type="text/css">
-		<style>
-			svg {
-				border: solid 1px #ccc;
-				font: 10px sans-serif;
-				shape-rendering: crispEdges;
-			}
-			.axis {
-				shape-rendering: crispEdges;
-			}
-			.axis path {
-				fill: none;
-			}
-			.x.axis line {
-				stroke: #fff;
-				stroke-opacity: .8;
-			}
-			.y.axis path {
-				stroke: black;
-			}
-			input[type='radio'] {
-				display: none; 
-			}
-		</style>  
+		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+		<script type="text/javascript">
+$(function () {
+        $('#container').highcharts({
+            chart: {
+                type: 'column'
+            },
+            title: {
+                text: 'ZĂˇkony pĹ™ijĂ­manĂ© ve vztahu k EU'
+            },
+            xAxis: {
+                categories: ['3 Q 2002', '4 Q 2002', '1 Q 2003', '2 Q 2003', '3 Q 2003', '4 Q 2003', '1 Q 2004', '2 Q 2004', '3 Q 2004', '4 Q 2004', '1 Q 2005', '2 Q 2005', '3 Q 2005', '4 Q 2005', '1 Q 2006', '2 Q 2006', '3 Q 2006', '4 Q 2006', '1 Q 2007', '2 Q 2007', '3 Q 2007', '4 Q 2007', '1 Q 2008', '2 Q 2008', '3 Q 2008', '4 Q 2008', '1 Q 2009', '2 Q 2009', '3 Q 2009', '4 Q 2009', '1 Q 2010', '2 Q 2010', '3 Q 2010', '4 Q 2010', '1 Q 2011', '2 Q 2011', '3 Q 2011', '4 Q 2011', '1 Q 2012', '2 Q 2012', '3 Q 2012', '4 Q 2012', '1 Q 2013', '2 Q 2013'],
+                tickInterval: 3
+            },
+            yAxis: {
+                min: 0,
+                title: {
+                    text: 'PoÄŤet zĂˇkonĹŻ v procentech'
+                },
+                stackLabels: {
+                    enabled: true,
+                    style: {
+                        fontWeight: 'bold',
+                        color: (Highcharts.theme && Highcharts.theme.textColor) || 'gray'
+                    }
+                }
+            },
+            legend: {
+                align: 'right',
+                x: -70,
+                verticalAlign: 'top',
+                y: 20,
+                floating: true,
+                backgroundColor: (Highcharts.theme && Highcharts.theme.legendBackgroundColorSolid) || 'white',
+                borderColor: '#CCC',
+                borderWidth: 1,
+                shadow: false
+            },
+            tooltip: {
+               pointFormat: '<span style="color:{series.color}">{series.name}</span>: <b>{point.y}</b> ({point.percentage:.0f}%)<br/>',
+                shared: true
+            },
+            plotOptions: {
+                column: {
+                    stacking: 'percent',
+                    dataLabels: {
+                        enabled: false,
+                        color: (Highcharts.theme && Highcharts.theme.dataLabelsColor) || 'white',
+                        style: {
+                            textShadow: '0 0 3px black, 0 0 3px black'
+                        }
+                    }
+                }
+            },
+            series: [{
+                name: 'Vztah k EU',
+                data: [6, 8, 19, 24, 10, 28, 6, 15, 5, 7, 5, 13, 29, 8, 1, 0, 1, 7, 3, 11, 14, 11, 13, 9, 16, 5, 9, 6, 9, 0, 8, 1, 8, 16, 17, 27, 8, 8, 10, 9, 10, 6, 6, 1],
+                pointWidth: 12,
+                color: '#9ecae1'
+            }, {
+                name: 'Bez vztahu k EU',
+                data: [26, 18, 28, 23, 20, 19, 18, 31, 16, 17, 25, 23, 32, 6, 4, 4, 12, 21, 16, 11, 14, 20, 26, 18, 9, 15, 21, 11, 10, 9, 12, 1, 13, 23, 23, 27, 19, 13, 20, 20, 9, 13, 3, 1],
+                pointWidth: 12,
+                color: '#bdbdbd'
+            }]
+        });
+    });
+    
 
+		</script>
 	</head>
 	<body>
+<script src="./js/highcharts.js"></script>
 
-		<form>
-			<div class="btn-group">
-				<label class="btn btn-default">
-					<input type="radio" name="mode" value="pocet" checked>Počet
-				</label>
-				<label class="btn btn-default">
-					<input type="radio" name="mode" value="procenta">Procenta
-				</label>
-			</div>
-		</form>
-
-		<script type="text/javascript">
-			var width = 990, height = 500; // Velikost zobrazovaneho grafu v ramecku
-
-			var x = d3.scale.ordinal().rangeRoundBands([25, width]); // range = rozsah výstupu
-			var y = d3.scale.linear().range([0, height - 50]); // Shora o 50 mensi
-			var y_AxisScale = d3.scale.linear().range([height - 50, 0]); // Shora o 50 mensi
-			var z = d3.scale.ordinal().range(["#2B7BBE", "#2BBE96"]); // Pridany barvicky
-
-			var svg = d3.select("body")
-					.append("svg") // SVG = vektorova grafika
-					.attr("class", "chart") // pridani SVG elementu trida chart
-					.attr("width", width) // nastav sirku z promenne
-					.attr("height", height) // a jeste vysku  
-					.append("g") // Pridan dalsi element
-					.attr("transform", "translate(0,460)"); // Pozicovani uvnitr ramecku => z leva, shora
-
-			d3.tsv("data/data.tsv", function(error, data) {
-
-				var x1Axis = d3.svg.axis()
-						.scale(x)
-						.orient("top")
-						.tickSize(0)
-						.tickFormat(function(index) {
-							return data[index].Kvartal;
-						});
-				var x2Axis = d3.svg.axis()
-						.scale(x)
-						.orient("bottom")
-						.tickSize(0)
-						.tickFormat(function(index) {
-							if (data[index].Kvartal == "Q1") {
-								return data[index].rok;
-							} else {
-								return  "";
-							}
-						});
-				var yAxis = d3.svg.axis()
-						.scale(y_AxisScale)
-						.orient("left")
-						.tickSize(2)
-						.tickFormat(function(d, index) {
-							// console.log(d + " index:" + index);
-							if (d <= 1 && d !== 0) {
-								return (d * 100) + "%";
-							} else {
-								return  d;
-							}
-						});
-
-				var x1AxisGroup = svg.append("g")
-						.attr("class", "x axis")
-						.attr("transform", "translate(0,18)")
-						.call(x1Axis);
-
-				var x2AxisGroup = svg.append("g")
-						.attr("class", "x axis")
-						.attr("transform", "translate(0,20)")
-						.call(x2Axis);
-
-				var yAxisGroup = svg.append("g")
-						.attr("class", "y axis")
-						.attr("transform", "translate(30,-450)")
-						.call(yAxis);
-
-
-				function vypisSloupce(ChangeData) {
-					j = 1;
-					for (var i = 0; i < ChangeData.length; i++) {
-						jAddToArray = (ChangeData[i]);
-						jAddToArray.unshift(j); // Ocislovani kazdeho sloupecku uvnitr vsech poli
-						j++;
-					}
-
-					var remapped = ["hodnotyEU", "hodnotyMIMOEU"].map(function(dat, i) {
-						return ChangeData.map(function(d, ii) {
-							return {x: ii, y: d[i + 1]};
-						});
-					});
-
-					var stacked = d3.layout.stack()(remapped);
-					// console.log(stacked); // Ladici prvek
-
-					x.domain(stacked[0].map(function(d) {
-						return d.x; // Vrati poradi na kterem je sloupec (d = hodnota), (stacked[0] = poradi)
-					}));
-					y.domain([0, d3.max(stacked[stacked.length - 1], function(d) {
-							return d.y0 + d.y;
-						})]);
-					y_AxisScale.domain([0, d3.max(stacked[stacked.length - 1], function(d) {
-							return d.y0 + d.y;
-						})]);
-
-					// Add a group for each column.
-					var valgroup = svg.selectAll("g.valgroup")
-							.data(stacked)
-							.enter() // Vytvori misto pro prvek, enter() davame az kdyz chceme vkladat data
-							.append("g")
-							.attr("class", "valgroup")
-							.style("fill", function(d, i) {// Background
-								return z(i);
-							})
-							.style("stroke", function(d, i) {// Border
-								return d3.rgb(z(i)).darker();
-							});
-
-					x1AxisGroup.call(x1Axis);
-					x2AxisGroup.call(x2Axis);
-					yAxisGroup.call(yAxis);
-
-					// Add a rect for each date.
-					valgroup = svg.selectAll("g.valgroup"); // Jelikoz se nevytvareji nove prvky, tak musime znovu nacist valgroup aby se aktualizovali data
-					var rect = valgroup.selectAll("rect")
-							.data(function(d) {
-								return d;
-							});
-					rect.enter().append("rect"); // update dat staci zde
-					valgroup.selectAll("rect")
-							.transition().duration(500)
-							.attr("x", function(d) {
-								return x(d.x); // pozice LEFT
-							})
-							.attr("y", function(d) {
-								return -y(d.y0) - y(d.y); // pozice TOP
-							})
-							.attr("height", function(d) {
-								return y(d.y); // Vyska - vsech sloupcu vcetne ramecku
-							})
-							.attr("width", x.rangeBand()); // Sirka - vsech sloupcu vcetne ramecku
-				}
-
-				// BEGIN: Input BUTTON zmeny
-				$("input[name=mode]:radio").change(function() {
-					if (!$(this).is(":checked"))
-						return;
-
-					// Aktivni tlacitko
-					$('label:has(input:radio:checked)').addClass('active');
-					$('label:has(input:radio:not(:checked))').removeClass('active');
-
-					// Zmeny hodnot
-					var fceCMD = $(this).attr('value');
-					switch (fceCMD)
-					{
-						case "pocet":
-							// console.log("pocet"); // Ladici prvek
-							vychoziDataSet = data.map(function(d) {
-								return [+d["v EU"], +d["mimo EU"], d.Kvartal];  // +d (pretypovani na cislo v JavaScriptu)
-							});
-							vypisSloupce(vychoziDataSet); // Spustit fci
-							break;
-
-						case "procenta":
-							// console.log("procenta"); // Ladici prvek
-							vychoziDataSet = data.map(function(d) {
-								var soucet = +d["v EU"] + +d["mimo EU"];
-								return [+d["v EU"] / soucet, +d["mimo EU"] / soucet, d.Kvartal];  // +d (pretypovani na cislo v JavaScriptu)
-							});
-							vypisSloupce(vychoziDataSet); // Spustit fci
-							break;
-					}
-
-				}).change();
-				// END: Input BUTTON zmeny
-
-			});
-		</script>
-
+<div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
 
 	</body>
 </html>
