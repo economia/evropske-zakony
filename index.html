@@ -10,6 +10,7 @@
 
 		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
 		<script type="text/javascript">
+<<<<<<< HEAD
 $(function () {
         $('#container').highcharts({
             chart: {
@@ -76,6 +77,74 @@ $(function () {
         });
     });
     
+=======
+			var width = 990, height = 500; // Velikost zobrazovaneho grafu v ramecku
+
+			var x = d3.scale.ordinal().rangeRoundBands([25, width]); // range = rozsah výstupu
+			var y = d3.scale.linear().range([0, height - 50]); // Shora o 50 mensi
+			var y_AxisScale = d3.scale.linear().range([height - 50, 0]); // Shora o 50 mensi
+			var z = d3.scale.ordinal().range(["#2B7BBE", "#2BBE96"]); // Pridany barvicky
+
+			var svg = d3.select("body")
+					.append("svg") // SVG = vektorova grafika
+					.attr("class", "chart") // pridani SVG elementu trida chart
+					.attr("width", width) // nastav sirku z promenne
+					.attr("height", height) // a jeste vysku  
+					.append("g") // Pridan dalsi element
+					.attr("transform", "translate(0,460)"); // Pozicovani uvnitr ramecku => z leva, shora
+
+			d3.tsv("data/data.tsv", function(error, data) {
+
+				var x1Axis = d3.svg.axis()
+						.scale(x)
+						.orient("top")
+						.tickSize(0)
+						.tickFormat(function(index) {
+							return data[index].Kvartal;
+						});
+				var x2Axis = d3.svg.axis()
+						.scale(x)
+						.orient("bottom")
+						.tickSize(0)
+						.tickFormat(function(index) {
+							if (data[index].Kvartal == "Q1") {
+								return data[index].rok;
+							} else {
+								return  "";
+							}
+						});
+				var yAxis = d3.svg.axis()
+						.scale(y_AxisScale)
+						.orient("left")
+						.tickSize(2)
+						.tickFormat(function(d, index) {
+							var typGrafu = $('input[name=mode]:radio:checked').val();
+							switch (typGrafu) {
+								case "pocet":
+									return  d;
+									break;
+								case "procenta":
+									return (d * 100) + "%";
+									break;
+							}
+						});
+
+				var x1AxisGroup = svg.append("g")
+						.attr("class", "x axis")
+						.attr("transform", "translate(0,18)")
+						.call(x1Axis);
+
+				var x2AxisGroup = svg.append("g")
+						.attr("class", "x axis")
+						.attr("transform", "translate(0,20)")
+						.call(x2Axis);
+
+				var yAxisGroup = svg.append("g")
+						.attr("class", "y axis")
+						.attr("transform", "translate(30,-450)")
+						.call(yAxis);
+
+>>>>>>> 47cf6223f5871c268a025d981215ca4ee5146ede
 
 		</script>
 	</head>
