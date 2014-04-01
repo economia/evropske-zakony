@@ -87,11 +87,15 @@
 						.orient("left")
 						.tickSize(2)
 						.tickFormat(function(d, index) {
-							// console.log(d + " index:" + index);
-							if (d <= 1 && d !== 0) {
-								return (d * 100) + "%";
-							} else {
-								return  d;
+							var typGrafu = $('input[name=mode]:radio:checked').val()
+							switch (typGrafu)
+							{
+								case "pocet":
+									return  d;
+									break;
+								case "procenta":
+									return (d * 100) + "%";
+									break;
 							}
 						});
 
